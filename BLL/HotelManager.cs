@@ -1,23 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using DTO;
 using DAL;
+using DTO;
+using Newtonsoft.Json;
 
 namespace BLL
 {
     public class HotelManager
     {
+        static string baseUri = "http://localhost:1176/api/";
+
         /// <summary>
         /// Return a List of Hotel object
         /// </summary>
         public static List<Hotel> GetHotels()
         {
-            List<Hotel> hotels = HotelDB.GetHotels();
-
-            return hotels;
+            string uri = baseUri + "hotels";
+            using (HttpClient httpClient = new HttpClient())
+            {
+                Task<String> response = httpClient.GetStringAsync(uri);
+                return JsonConvert.DeserializeObject<List<Hotel>>(response.Result);
+            }
         }
 
         /// <summary>
@@ -25,9 +32,12 @@ namespace BLL
         /// </summary>
         public static Hotel GetHotel(int idHotel)
         {
-            Hotel hotel = HotelDB.GetHotel(idHotel);
-
-            return hotel;
+            string uri = baseUri + "hotels/" + idHotel;
+            using (HttpClient httpClient = new HttpClient())
+            {
+                Task<String> response = httpClient.GetStringAsync(uri);
+                return JsonConvert.DeserializeObject<Hotel>(response.Result);
+            }
         }
 
         /// <summary>
@@ -93,8 +103,15 @@ namespace BLL
         /// </summary>
         public static List<HotelWithInfo> GetHotelsWithInfo(DateTime arrival, DateTime departure)
         {
+            List<Hotel> hotels;
             List<HotelWithInfo> hotelsWithInfo = new List<HotelWithInfo>();
-            List<Hotel> hotels = HotelDB.GetHotels();
+
+            string uri = baseUri + "hotels";
+            using (HttpClient httpClient = new HttpClient())
+            {
+                Task<String> response = httpClient.GetStringAsync(uri);
+                hotels = JsonConvert.DeserializeObject<List<Hotel>>(response.Result);
+            }
 
             foreach (Hotel hotel in hotels)
             {

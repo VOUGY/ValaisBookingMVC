@@ -1,0 +1,72 @@
+﻿@{ 
+    DTO.Hotel hotel = (@ViewBag.ReservationValidate.Rooms as IEnumerable<DTO.Room>).First().Hotel;
+}
+
+<div class="list-group">
+    <div class="list-group-item">
+        <h4 class="list-group-item-heading">Informations sur la réservation</h4>
+        <ul style="padding-left: 0;">
+            <li class="list-group-item"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> @ViewBag.ReservationValidate.FirstName @ViewBag.ReservationValidate.LastName</li>
+            <li class="list-group-item"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> @hotel.Name, @hotel.Location</li>
+            <li class="list-group-item">
+                @if (hotel.HasWifi)
+                {
+                    <span title="Wifi" class="icon icon-wifi"></span>
+                }
+                @if (hotel.HasParking)
+                {
+                    <span title="Parking" class="icon icon-car"></span>
+                }
+            </li>
+            <li class="list-group-item"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span> Du @ViewBag.ReservationValidate.Arrival à @ViewBag.ReservationValidate.Departure</li>
+            <li class="list-group-item">
+                <span class="glyphicon glyphicon-link" aria-hidden="true"></span>
+                <a href="http://@hotel.Website">@hotel.Website</a>
+            </li>
+            <li class="list-group-item">
+                <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
+                <a href="mailto:@hotel.Email">@hotel.Email</a>
+            </li>
+            <li class="list-group-item">
+                <span class="glyphicon glyphicon-phone" aria-hidden="true"></span>
+                @hotel.Phone
+            </li>
+            <li class="list-group-item"><span class="glyphicon glyphicon-time" aria-hidden="true"></span> @ViewBag.ReservationValidate.RoomNumber chambre(s) pour @ViewBag.ReservationValidate.TotalNight nuit(s)</li>
+            <li class="list-group-item"><span class="glyphicon glyphicon-tag" aria-hidden="true"></span> <b>Total de CHF @ViewBag.ReservationValidate.TotalPrice</b></li>
+        </ul>
+    </div>
+</div>
+
+<h3 class="page-header">Chambre(s)</h3>
+
+@foreach (DTO.Room room in ViewBag.ReservationValidate.Rooms)
+{
+    <div class="list-group">
+        <div class="list-group-item">
+            <ul style="padding-left: 0;">
+                <li class="list-group-item"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> @room.Hotel.Name, @room.Hotel.Location</li>
+                <li class="list-group-item"><span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span> Chambre <b>@room.Number</b></li>
+                <li class="list-group-item">
+                    @if (room.Type == 1)
+                    {
+                        <span title="Chambre simple" class="icon icon-single"></span>
+                    }
+                    @if (room.Type == 2)
+                    {
+                        <span title="Chambre double" class="icon icon-double"></span>
+                    }
+                    @if (room.HasTV)
+                    {
+                        <span title="Tv" class="icon icon-tv"></span>
+                    }
+                    @if (room.HasHairDryer)
+                    {
+                        <span title="Sèche cheveux" class="icon icon-dryer"></span>
+                    }
+                </li>
+                <li class="list-group-item">@Html.Raw(room.Description)</li>
+                <li class="list-group-item"><span class="glyphicon glyphicon-tag" aria-hidden="true"></span> <b>CHF @room.Price</b></li>
+            </ul>
+        </div>
+    </div>
+}

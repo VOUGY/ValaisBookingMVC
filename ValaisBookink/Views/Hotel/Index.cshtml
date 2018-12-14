@@ -1,0 +1,16 @@
+﻿
+@{
+    ViewBag.Title = "Home Page";
+}
+
+@if (ViewBag.ReservationId > 0)
+{
+    @Html.Partial("_PopupReservation")
+}
+
+<div class="row.make-columns">
+    <h2 class="page-header">Recherche hotel</h2>
+
+    @Html.Partial("_SearchBar")
+
+ </div>

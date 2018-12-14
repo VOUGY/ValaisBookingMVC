@@ -1,0 +1,104 @@
+﻿<div class="well">
+    @using (Html.BeginForm("Search", "Hotel", FormMethod.Get, new { enctype = "multipart/form-data", id = "search-form", @class = "navbar-form" }))
+    {
+        <div class="form-group">
+            <div class="input-group">
+                <span class="input-group-addon" id="location">Lieu</span>
+                @Html.TextBox("Location", null, new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="input-group">
+                <span class="input-group-addon" id="arrival-date">Arrivé</span>
+                @Html.TextBox("Arrival", null, new { @type = "date", @class = "form-control", @required = "required" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="input-group">
+                <span class="input-group-addon" id="departure-date">Départ</span>
+                @Html.TextBox("Departure", null, new { @type = "date", @class = "form-control", @required = "required" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="input-group">
+                <span class="input-group-addon" id="person">Place</span>
+                @Html.TextBox("Person", null, new { @type = "number", @class = "form-control" })
+            </div>
+        </div>
+
+        <a class="btn btn-default" role="button" data-toggle="collapse" href="#collapseSetting" aria-expanded="false" aria-controls="collapseSetting" title="Wifi, parking, tv , ...">
+            <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+            <span class="caret"></span>
+        </a>
+
+        <a class="btn btn-default" role="button" data-toggle="collapse" href="#collapseStar" aria-expanded="false" aria-controls="collapseStar" title="Catégory de l'hôtel'">
+            <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+            <span class="caret"></span>
+        </a>
+
+        <button type="submit" class="btn btn-primary" title="Rechercher"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+        
+        <div class="collapse" id="collapseSetting">
+            <div class="well">
+                <div class="btn-group" data-toggle="buttons">
+                    <label class='btn btn-default @(Request.QueryString["hasWifi"] == "true" ? "active" : "")'>
+                        <input type="checkbox" name="hasWifi" value="true" id="hasWifi" @(Request.QueryString["hasWifi"] == "true" ? "checked=\"checked\"" : "") /> Wifi
+                    </label>
+                    <label class='btn btn-default @(Request.QueryString["hasParking"] == "true" ? "active" : "")'>
+                        <input type="checkbox" name="hasParking" value="true" id="hasParking" @(Request.QueryString["hasParking"] == "true" ? "checked=\" checked\"" : "") /> Parking
+                    </label>
+                    <label class='btn btn-default @(Request.QueryString["hasTv"] == "true" ? "active" : "")'>
+                        <input type="checkbox" name="hasTv" value="true" id="hasTv" @(Request.QueryString["hasTv"] == "true" ? "checked=\" checked\"" : "") /> Tv
+                    </label>
+                    <label class='btn btn-default @(Request.QueryString["hasHairDryer"] == "true" ? "active" : "")'>
+                        <input type="checkbox" name="hasHairDryer" value="true" id="hasHairDryer" @(Request.QueryString["hasHairDryer"] == "true" ? "checked=\" checked\"" : "") /> Sèche cheveux
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="collapse" id="collapseStar">
+            <div class="well">
+                <div class="btn-group" data-toggle="buttons">
+                    <label class='btn btn-default @(Request.QueryString["category"] == "2" ? "active" : "")'>
+                        @Html.RadioButton("category", "2")
+                        <span class="hotel-rates">
+                            <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                            <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                        </span>
+                    </label>
+                    <label class='btn btn-default @(Request.QueryString["category"] == "3" ? "active" : "")'>
+                        @Html.RadioButton("category", "3")
+                        <span class="hotel-rates">
+                            <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                            <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                            <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                        </span>
+                    </label>
+                    <label class='btn btn-default @(Request.QueryString["category"] == "4" ? "active" : "")'>
+                        @Html.RadioButton("category", "4")
+                        <span class="hotel-rates">
+                            <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                            <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                            <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                            <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                        </span>
+                    </label>
+                    <label class='btn btn-default @(Request.QueryString["category"] == "5" ? "active" : "")'>
+                        @Html.RadioButton("category", "5")
+                        <span class="hotel-rates">
+                            <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                            <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                            <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                            <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                            <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                        </span>
+                    </label>
+                </div>
+            </div>
+        </div>
+    }
+</div>

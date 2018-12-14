@@ -1,0 +1,39 @@
+﻿
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <h2 class="page-header">Réservation n° @Url.RequestContext.RouteData.Values["id"]</h2>
+
+    @Html.Partial("_ReservationDetails")
+
+    <a href="javascript: history.go(-1)" class="btn btn-primary">Retour</a>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#deleteConfirmation">
+        Annuler
+    </button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="deleteConfirmation" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Annulation de réservation</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-warning">
+                        Etes-vous sur d'annuler votre réservation ?
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Non</button>
+                    @Html.ActionLink("Oui", "Delete", "Reservation", new { id = @Url.RequestContext.RouteData.Values["id"] }, new { @class = "btn btn-primary" })
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+

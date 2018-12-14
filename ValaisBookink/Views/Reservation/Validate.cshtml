@@ -1,0 +1,52 @@
+﻿@model  ValaisBookink.ViewModels.ReservationVM
+@{
+    ViewBag.Title = "Validate";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    DTO.Hotel hotel = (@ViewBag.ReservationValidate.Rooms as IEnumerable<DTO.Room>).First().Hotel;
+}
+
+<div class="row">
+    <h2 class="page-header">Vérification de la réservation</h2>
+
+    <div class="progress">
+        <div class="progress-bar" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%;">
+            2 / 2
+        </div>
+    </div>
+
+    @Html.Partial("_ReservationDetails")
+
+
+    @using (Html.BeginForm("Create", "Reservation", FormMethod.Post, new { enctype = "multipart/form-data", id = "reservation-form" }))
+    {
+
+        
+        @Html.HiddenFor(m => m.Firstname)
+        @Html.HiddenFor(m => m.Lastname)
+        @Html.HiddenFor(m => m.Arrival)
+        @Html.HiddenFor(m => m.Departure)
+        for (int i = 0; i < Model.RoomIds.Count(); i++)
+        {
+            @Html.HiddenFor(m => m.RoomIds[i])
+        }
+
+        @*
+        @Html.HiddenFor(m => m.Rooms.First().Hotel.IdHotel, new { @id = "IdHotel", @Name = "IdHotel" })
+        for (int i = 0; i < Model.Rooms.Count; i++)
+        {
+            @Html.HiddenFor(m => m.Rooms[i].IdRoom, new { @Name = "Rooms"})
+        }
+        *@
+
+        <div class="alert alert-info">
+            <label>
+                <input id="agre" class="check_list" name="check_list[]" type="checkbox" /> J'ai tout vérifié ...
+            </label>
+        </div>
+
+        <a href="javascript: history.go(-1)" class="btn btn-primary">Retour</a>
+        @Html.ActionLink("Annuler", "Index", "Hotel", null, new { @class = "btn btn-primary" })
+        <button type="submit" class="btn btn-primary" id="submitButton" disabled>Réserver</button> 
+    }
+
+</div>

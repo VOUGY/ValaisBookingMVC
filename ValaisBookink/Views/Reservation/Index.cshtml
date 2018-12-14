@@ -1,0 +1,47 @@
+﻿@model  ValaisBookink.ViewModels.ReservationIndexVM
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <h2 class="page-header">Consultation d'une réservation</h2>
+
+    @if (ViewBag.IsDelete)
+    {
+        <div class="alert alert-success">
+            Votre réservation a été suprimmé !
+        </div>
+    }
+
+    @using (Html.BeginForm("Index", "Reservation", FormMethod.Post, new { enctype = "multipart/form-data", id = "reservation-form" }))
+    {
+        if (!ViewData.ModelState.IsValid)
+        {
+            <div class="alert alert-danger" role="alert">
+                <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                <span class="sr-only">Error:</span>
+                <b>Une ou plusieurs erreurs sont survenues !</b>
+                @Html.ValidationSummary(false)
+            </div>
+        }
+
+        <div class="form-group">
+            @Html.Label("Firstname", "Prénom")
+            @Html.TextBoxFor(x => x.Firstname, null, new { @class = "form-control" })
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Lastname", "Nom")
+            @Html.TextBoxFor(x => x.Lastname, null, new { @class = "form-control" })
+        </div>
+
+        <div class="form-group">
+            @Html.Label("ReservationId", "Numéro de réservation")
+            @Html.TextBoxFor(x => x.ReservationId, null, new { @class = "form-control" })
+        </div>
+
+        <button type="submit" class="btn btn-primary">Voir</button>
+    }
+</div>

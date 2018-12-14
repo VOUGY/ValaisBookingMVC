@@ -1,0 +1,214 @@
+﻿html, body {
+    background: #F7F7F7;
+}
+
+body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+    background: #FAFAFA;
+    color: #303030;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default 
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+*/
+
+/*Bootstrap override*/
+.navbar {
+    background-color: #FFFFFF;
+}
+
+.navbar-brand a:hover {
+    border-bottom: 1px #D0081D solid;
+}
+
+.container .navbar-header {
+    height: 50px;
+}
+
+.navbar-default .navbar-brand:hover,
+.navbar-default .navbar-brand:focus {
+    background: #EE162D;
+    border: none;
+    color: #FFFFFF;
+}
+
+.navbar-brand {
+    display: inline-block;
+    height: 65px;
+    background: #EE162D;
+}
+
+.navbar-default .navbar-brand {
+    color: #FFFFFF;
+}
+
+.progress-bar {
+    background-color: #EE162D;
+}
+
+
+.btn-primary {
+    background: #EE162D;
+    border: none;
+}
+
+    .btn-primary:hover {
+        background: #D0081D;
+    }
+
+
+.carousel-inner {
+    height: 300px;
+    background-color: #303030;
+}
+
+    .carousel-inner > .item {
+        height: 300px;
+    }
+
+        .carousel-inner > .item img {
+            height: 300px;
+            margin: 0 auto 0 auto;
+        }
+
+.well {
+    background-color: #FFFFFF;
+}
+
+    .well.active {
+        background-color: #F4F4F4;
+        border-color: #EE162D;
+    }
+/*End Bootstrap override*/
+/*Icon (wifi, tv, parking, hairdryer)*/
+.icon {
+    background-color: #EE162D;
+    height: 32px;
+    width: 32px;
+    display: inline-block;
+    border-radius: 5px;
+}
+    .icon::after {
+        display: inline-block;
+        content: '';
+        height: 32px;
+        width: 32px;
+    }
+.icon-car:after {
+    background: url(images/ic_car.png) no-repeat 0px 0px;
+    background-size: 32px 32px;
+}
+.icon-wifi:after {
+    background: url(images/ic_wifi.png) no-repeat 0px 0px;
+    background-size: 32px 32px;
+}
+.icon-double:after {
+    background: url(images/ic_double.png) no-repeat 0px 0px;
+    background-size: 32px 32px;
+}
+.icon-single:after {
+    background: url(images/ic_single.png) no-repeat 0px 0px;
+    background-size: 32px 32px;
+}
+.icon-dryer:after {
+    background: url(images/ic_dryer.png) no-repeat 0px 0px;
+    background-size: 32px 32px;
+}
+.icon-tv:after {
+    background: url(images/ic_tv.png) no-repeat 0px 0px;
+    background-size: 32px 32px;
+}
+/*End icon*/
+
+
+#search-form input[type="number"] {
+    width: 100px;
+}
+
+.page-header {
+    border-color: #EE162D;
+}
+
+
+.hotel-rates {
+    color: #EE162D;
+    /*margin-top: -10px;*/
+}
+
+.hotel-specification{
+    height: 37px;
+}
+
+
+#reservation-form > div, #hotel-info > div {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+
+
+.room:hover {
+    cursor: pointer;
+    border-color: #EE162D;
+}
+
+.room p {
+    text-align: justify;
+}
+
+.hotel-location{
+    font-size: 100%;
+    font-weight: 500;
+}
+
+.thumbnail {
+    position: relative;
+}
+
+.thumbnail-caption {
+    display: block;
+    width: 100%;
+    height: 35px;
+    line-height: 35px;
+    margin-top: -35px;
+    background-color: rgba(0,0,0,0.4);
+    color: #FFFFFF;
+}
+
+.thumbnail-caption span{
+    display: inline-block;
+    width: 100%;
+    background-color: rgba(0,0,0,0.6);
+    padding: 0 9px 0 9px;
+}
+
+.hotel-list {
+    -moz-column-width: 25em;
+    -webkit-column-width: 25em;
+    -moz-column-gap: 1em;
+    -webkit-column-gap: 1em;
+}
+
+.item {
+    display: inline-block;
+    padding: .25rem;
+    width: 100%;
+}

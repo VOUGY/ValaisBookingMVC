@@ -1,0 +1,60 @@
+﻿@model  IEnumerable<DTO.HotelWithInfo>
+
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="row.make-columns">
+    <h2 class="page-header">Hotels</h2>
+
+    @Html.Partial("_SearchBar")
+
+    <div class="hotel-list">
+        @foreach (DTO.HotelWithInfo hotelWithInfo in Model)
+        {
+            <div class="item" style="margin-bottom: 15px;">
+                <div class="thumbnail">
+                    <div class="hotel-specification">
+                        @if (hotelWithInfo.Hotel.HasWifi)
+                        {
+                            <span class="icon icon-wifi" title="Wifi"></span>
+                        }
+                        @if (hotelWithInfo.Hotel.HasParking)
+                        {
+                            <span class="icon icon-car" title="Parking"></span>
+                        }
+                        <span class="pull-right label label-default hotel-location">@hotelWithInfo.Hotel.Location</span>
+                    </div>
+
+                    <img src="@hotelWithInfo.UrlPicture" alt="Chambre a l'hôtel @hotelWithInfo.Hotel.Name">
+                    <div class="thumbnail-caption"><span>Dès @hotelWithInfo.HotelAvailability.MinPrice CHF</span></div>
+
+                    <div class="caption">
+                        <h3>@hotelWithInfo.Hotel.Name</h3>
+                        <div class="hotel-rates">
+                            @for (int i = 0; i < hotelWithInfo.Hotel.Category; i++)
+                            {
+                                <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                            }
+                        </div>
+                        <div>@Html.Raw(hotelWithInfo.Hotel.Description.Substring(0, 250))...</div>
+                        <div class='alert @(hotelWithInfo.HotelAvailability.OcucupancyRate < 0.7 ? "alert-success" : "alert-warning")'>
+                            @hotelWithInfo.HotelAvailability.NumberOfAvailableRoom chambre(s) disponible(s) <br />
+                            @hotelWithInfo.HotelAvailability.NumberOfAvailablePerson place(s) dispoible(s)<br />
+                            @hotelWithInfo.HotelAvailability.OcucupancyRate.ToString("0.00%") occupé
+                        </div>
+                        <p>
+                            @Html.ActionLink("Réserver", "Hotel", "Reservation", new { id = @hotelWithInfo.Hotel.IdHotel, arrival = @Request.QueryString["arrival"], departure = @Request.QueryString["departure"] }, new { @class = "btn btn-primary" })
+                            @Html.ActionLink("Détails", "Details", "Hotel", new { id = @hotelWithInfo.Hotel.IdHotel }, new { @class = "btn btn-primary" })
+                        </p>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    @if (Model.Count() == 0)
+    {
+        <div class="alert alert-warning">Aucun hotel correspond à la recherche</div>
+    }
+</div>

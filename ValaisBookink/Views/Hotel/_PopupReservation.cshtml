@@ -1,0 +1,26 @@
+﻿<div class="modal fade" tabindex="-1" role="dialog" id="reservation">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Réservation n° @ViewBag.ReservationId</h4>
+            </div>
+            <div class="modal-body">
+                <p>Félicitation, <b>@ViewBag.Firstname @ViewBag.Lastname</b>, vous venez de réserver un séjour avec ValaisBooking !</p>
+                <h4>Informations</h4>
+                <p>Votre numéro de réservation est le suivant: <b>@ViewBag.ReservationId</b></p>
+                <p> Avec ce n° vous pouvez, à tout moment, consulter la réservation à cette @Html.ActionLink("adresse", "Index", "Reservation") en rentrant votre <b>prénom</b>, <b>nom</b> et le <b>numéro de réservation</b></p>
+                <div class="alert alert-success" role="alert">Numéro de réservation: <b>@ViewBag.ReservationId</b></div>
+                <h4>Annulation</h4>
+                <p>Vous pouvez annuler votre réservation sur la  @Html.ActionLink("page de consultation", "Details", "Reservation") en cliquant sur le boutton annuler</p>
+                <div style="text-align: center; font-size: 60px; line-height: 60px; margin-top: 15px;">
+                    <span class="glyphicon glyphicon-check text-success" aria-hidden="true"></span>
+                </div>
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

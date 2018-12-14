@@ -1,0 +1,99 @@
+﻿@model ValaisBookink.ViewModels.HotelDetailsVM
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <h2 class="page-header">@Model.Hotel.Name</h2>
+
+    <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+        <!-- Indicators -->
+        <ol class="carousel-indicators">
+             @for (int i = 0; i < Model.Pictures.Count(); i++)
+            {
+                <li data-target="#carousel-example-generic" data-slide-to="@i" class='@(i == 0 ? "active" : "")'></li>
+            }
+            
+        </ol>
+
+        <!-- Wrapper for slides -->
+        <div class="carousel-inner" role="listbox">
+            @foreach (DTO.Picture picture in Model.Pictures) { 
+                <div class='item @(picture == Model.Pictures.First() ? "active" : "")'>
+                    <img src="@picture.Url" alt="Photo de l'hotel @Model.Hotel.Name">
+                </div>
+            }
+            
+        </div>
+
+        <!-- Controls -->
+        <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+</div>
+
+<div class="row" style="margin-top: 10px">
+    <div class="col-xs-12 col-md-3">
+        <div id="hotel-info">
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <h3>Informations</h3>
+                </li>
+                <li class="list-group-item">
+                    <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>
+                    @Model.Hotel.Location
+                </li>
+                <li class="list-group-item">
+                    <div class="hotel-rates">
+                        @for (int i = 0; i < Model.Hotel.Category; i++)
+                        {
+                            <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                        }
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    @if (Model.Hotel.HasWifi)
+                    {
+                        <span class="icon icon-wifi"></span>
+                    }
+                    @if (Model.Hotel.HasParking)
+                    {
+                        <span class="icon icon-car"></span>
+                    }
+                </li>
+                <li class="list-group-item">
+                    <span class="glyphicon glyphicon-link" aria-hidden="true"></span>
+                    <a href="http://@Model.Hotel.Website">@Model.Hotel.Website</a>
+                </li>
+                <li class="list-group-item">
+                    <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
+                    <a href="mailto:@Model.Hotel.Email">@Model.Hotel.Email</a>
+                </li>
+                <li class="list-group-item">
+                    <span class="glyphicon glyphicon-phone" aria-hidden="true"></span>
+                    @Model.Hotel.Phone
+                </li>
+                <li class="list-group-item">
+                    <span class="glyphicon glyphicon-home" aria-hidden="true"></span>
+                    @Model.HotelCapacity.TotalNumberRoom chambres
+                </li>
+                <li class="list-group-item">
+                    <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                    Jusqu'à @Model.HotelCapacity.TotalNumberPerson personnes
+                </li>
+            </ul>  
+        </div>
+    </div>
+    <div class="col-xs-12 col-md-9">
+         @Html.Raw(Model.Hotel.Description)
+    </div>
+</div>
+
+

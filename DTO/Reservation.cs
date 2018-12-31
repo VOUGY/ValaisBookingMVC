@@ -6,12 +6,21 @@ using System.Threading.Tasks;
 
 namespace DTO
 {
-    public class Reservation
+    public partial class Reservation
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Reservation()
+        {
+            this.Rooms = new HashSet<Room>();
+        }
+
         public int IdReservation { get; set; }
-        public DateTime Arrival { get; set; }
-        public DateTime Departure { get; set; }
-        public List<Room> Rooms { get; set; }
-        public Client Client { get; set; }
+        public System.DateTime Arrival { get; set; }
+        public System.DateTime Departure { get; set; }
+        public int IdClient { get; set; }
+
+        public virtual Client Client { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Room> Rooms { get; set; }
     }
 }

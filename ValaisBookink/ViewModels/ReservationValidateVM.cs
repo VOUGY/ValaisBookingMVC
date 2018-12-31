@@ -15,7 +15,7 @@ namespace ValaisBookink.ViewModels
         public Double TotalNight { get; set; }
         public String FirstName { get; set; }
         public String LastName { get; set; }
-        public List<Room> Rooms { get; set; }
+        public ICollection<Room> Rooms { get; set; }
         public Decimal TotalPrice { get; set; }
         public int RoomNumber { get; set; }
     }

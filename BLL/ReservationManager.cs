@@ -6,28 +6,61 @@ using System.Threading.Tasks;
 using System.Security.Cryptography;
 using DTO;
 using DAL;
+using System.Net.Http;
+using Newtonsoft.Json;
 
 namespace BLL
 {
     public class ReservationManager
     {
+        static string baseUri = "http://localhost:1176/api/";
+
         /// <summary>
         /// Check data before inserting into database
         /// </summary>
-        public static int AddReservation(string firstName, string lastName, DateTime arrival, DateTime departure, int[] roomIds)
+        public static int AddReservationAsync(string firstName, string lastName, DateTime arrival, DateTime departure, int[] roomIds)
         {
-            
-            //Insert the reservation
-            int idClient = ClientDB.AddClient(firstName, lastName);
+            string uri;
+            Boolean status;
 
-            int idReservation = ReservationDB.AddReservation(arrival, departure, idClient);
+            // Insert the reservation
+            Client c = new Client();
+            c.Firstname = firstName;
+            c.Lastname = lastName;
 
-            foreach(int roomId in roomIds)
+            Reservation p = new Reservation();
+            p.Arrival = arrival;
+            p.Departure = departure;
+            p.Client = c;
+
+            uri = baseUri + "reservations";
+            using (HttpClient httpClient = new HttpClient())
             {
-                ReservationDB.AddRoomReservation(idReservation, roomId);
+                string pro = JsonConvert.SerializeObject(p, Formatting.Indented, new JsonSerializerSettings
+                {
+                    PreserveReferencesHandling = PreserveReferencesHandling.Objects
+                });
+                StringContent frame = new StringContent(pro, Encoding.UTF8, "Application/json");
+                Task<HttpResponseMessage> response = httpClient.PostAsync(uri, frame);
+
+                status = response.Result.IsSuccessStatusCode;
+
+                Task<String> resultString = response.Result.Content.ReadAsStringAsync(); 
+                p = JsonConvert.DeserializeObject<Reservation>(resultString.Result);
             }
 
-            return idReservation;
+            // Insert room reservation relation
+            uri = baseUri + "reservations/" + p.IdReservation + "/rooms";
+            using (HttpClient httpClient = new HttpClient())
+            {
+                string json = JsonConvert.SerializeObject(roomIds);
+                StringContent frame = new StringContent(json, Encoding.UTF8, "Application/json");
+                Task<HttpResponseMessage> response = httpClient.PostAsync(uri, frame);
+
+                status = response.Result.IsSuccessStatusCode;
+            }
+
+            return p.IdReservation;
         }
         
         /// <summary>
@@ -35,12 +68,24 @@ namespace BLL
         /// </summary>
         public static Reservation GetReservation(int idReservation)
         {
-            return ReservationDB.GetReservation(idReservation);
+            string uri = baseUri + "reservations/" + idReservation;
+            using (HttpClient httpClient = new HttpClient())
+            {
+                Task<String> response = httpClient.GetStringAsync(uri);
+                return JsonConvert.DeserializeObject<Reservation>(response.Result);
+            }
         }
 
         public static bool IsExistIsCorrect(string firstname, string lastname, int idReservation)
         {
-            Reservation reservation = ReservationDB.GetReservation(idReservation);
+            Reservation reservation;
+
+            string uri = baseUri + "reservations/" + idReservation;
+            using (HttpClient httpClient = new HttpClient())
+            {
+                Task<String> response = httpClient.GetStringAsync(uri);
+                reservation = JsonConvert.DeserializeObject<Reservation>(response.Result);
+            }
 
             if (!reservation.Client.Firstname.Equals(firstname))
                 return false;
@@ -53,25 +98,43 @@ namespace BLL
 
         /// <summary>
         /// Delete a reservation:
-        ///     1. delete all RoomReservation
-        ///     2. delete Reservation
-        ///     3. delete Client
+        ///     1. delete Reservation
+        ///     2. delete Client
         /// </summary>
         public static void DeleteReservation(int idReservation)
         {
-            Reservation reservation = ReservationDB.GetReservation(idReservation);
+            Boolean status;
+            Reservation reservation;
 
-            ReservationDB.DeleteRoomReservation(idReservation);
+            // Get reservation
+            string uri = baseUri + "reservations/" + idReservation;
+            using (HttpClient httpClient = new HttpClient())
+            {
+                Task<String> response = httpClient.GetStringAsync(uri);
+                reservation = JsonConvert.DeserializeObject<Reservation>(response.Result);
+            }
 
-            ReservationDB.DeleteReservation(idReservation);
+            // Delete reservation
+            uri = baseUri + "reservations/" + idReservation;
+            using (HttpClient httpClient = new HttpClient())
+            {
+                Task<HttpResponseMessage> response = httpClient.DeleteAsync(uri);
+                status = response.Result.IsSuccessStatusCode;
+            }
 
-            ClientDB.DeleteClient(reservation.Client.IdClient);
+            // Delete client of reservation
+            uri = baseUri + "clients/" + reservation.Client.IdClient;
+            using (HttpClient httpClient = new HttpClient())
+            {
+                Task<HttpResponseMessage> response = httpClient.DeleteAsync(uri);
+                status = response.Result.IsSuccessStatusCode;
+            }
         }
 
         /// <summary>
         /// Methode use for calculate the amount of the reservation with a list of Rooms
         /// </summary>
-        public static decimal CalculatePrice(List<Room> rooms, DateTime arrival, DateTime departure)
+        public static decimal CalculatePrice(ICollection<Room> rooms, DateTime arrival, DateTime departure)
         {
             decimal totalPrice = 0;
 
@@ -94,7 +157,13 @@ namespace BLL
 
             foreach (int id in roomIds)
             {
-                Room room = RoomManager.GetRoom(id);
+                Room room;
+                string uri = baseUri + "rooms/" + id;
+                using (HttpClient httpClient = new HttpClient())
+                {
+                    Task<String> response = httpClient.GetStringAsync(uri);
+                    room = JsonConvert.DeserializeObject<Room>(response.Result);
+                }
                 totalPrice += room.Price;
             }
 

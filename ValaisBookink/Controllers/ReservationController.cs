@@ -202,7 +202,7 @@ namespace ValaisBookink.Controllers
         {
             if (ModelState.IsValid)
             {
-                TempData["ReservationId"] = ReservationManager.AddReservation(
+                TempData["ReservationId"] = ReservationManager.AddReservationAsync(
                     reservation.Firstname,
                     reservation.Lastname,
                     reservation.Arrival,

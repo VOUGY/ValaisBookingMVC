@@ -45,9 +45,12 @@ namespace BLL
         /// </summary>
         public static List<Picture> GetPicturesForRoom(int idRoom)
         {
-            List<Picture> pictures = PictureDB.GetPicturesForRoom(idRoom);
-
-            return pictures;
+            string uri = baseUri + "rooms/" + idRoom + "/pictures";
+            using (HttpClient httpClient = new HttpClient())
+            {
+                Task<String> response = httpClient.GetStringAsync(uri);
+                return JsonConvert.DeserializeObject<List<Picture>>(response.Result);
+            }
         }
     
     }

@@ -133,9 +133,15 @@ namespace BLL
         public static HotelCapacity GetCapacity(int idHotel)
         {
             HotelCapacity hotelCapacity = new HotelCapacity();
+            List<Room> rooms;
             int place = 0;
 
-            List<Room> rooms = RoomDB.GetRoomsByHotel(idHotel);
+            string uri = baseUri + "hotels/" + idHotel + "/rooms";
+            using (HttpClient httpClient = new HttpClient())
+            {
+                Task<String> response = httpClient.GetStringAsync(uri);
+                rooms = JsonConvert.DeserializeObject<List<Room>>(response.Result);
+            }
 
             foreach (Room room in rooms)
             {

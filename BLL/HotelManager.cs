@@ -40,6 +40,7 @@ namespace BLL
             }
         }
 
+        // TODO: Use API
         /// <summary>
         /// Look for all the free rooms during a period of a hotel to know the number of free room, free space and the occupation rate
         /// </summary>
@@ -80,7 +81,13 @@ namespace BLL
         /// </summary>
         public static string GetUrlPicture(int idHotel)
         {
-            List<Picture> pictures = PictureDB.GetPicturesForHotel(idHotel);
+            List<Picture> pictures;
+            string uri = baseUri + "hotels/" + idHotel + "/pictures";
+            using (HttpClient httpClient = new HttpClient())
+            {
+                Task<String> response = httpClient.GetStringAsync(uri);
+                pictures = JsonConvert.DeserializeObject<List<Picture>>(response.Result);
+            }
 
             Random rnd = new Random();
             int r = rnd.Next(pictures.Count);
@@ -92,9 +99,12 @@ namespace BLL
         /// </summary>
         public static List<Picture> GetPictures(int idHotel)
         {
-            List<Picture> pictures = PictureDB.GetPicturesForHotel(idHotel);
-
-            return pictures;
+            string uri = baseUri + "hotels/" + idHotel + "/pictures";
+            using (HttpClient httpClient = new HttpClient())
+            {
+                Task<String> response = httpClient.GetStringAsync(uri);
+                return JsonConvert.DeserializeObject<List<Picture>>(response.Result);
+            }
         }
 
         /// <summary>

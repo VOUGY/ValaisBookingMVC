@@ -19,7 +19,7 @@ namespace BLL
         /// </summary>
         public static List<Room> GetRoomsWithNoReservationByHotel(int idHotel, DateTime arrival, DateTime departure)
         {
-            string uri = baseUri + "rooms";
+            string uri = baseUri + "hotels/" + idHotel + "/rooms";
             using (HttpClient httpClient = new HttpClient())
             {
                 Task<String> response = httpClient.GetStringAsync(uri);

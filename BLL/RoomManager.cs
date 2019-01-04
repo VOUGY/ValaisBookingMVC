@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DTO;
-using DAL;
 using System.Net.Http;
 using Newtonsoft.Json;
 
@@ -19,7 +18,7 @@ namespace BLL
         /// </summary>
         public static List<Room> GetRoomsWithNoReservationByHotel(int idHotel, DateTime arrival, DateTime departure)
         {
-            string uri = baseUri + "hotels/" + idHotel + "/rooms";
+            string uri = baseUri + "hotels/" + idHotel + "/rooms?withReservation=0&arrival="+arrival.ToString()+"&departure="+departure.ToString();
             using (HttpClient httpClient = new HttpClient())
             {
                 Task<String> response = httpClient.GetStringAsync(uri);

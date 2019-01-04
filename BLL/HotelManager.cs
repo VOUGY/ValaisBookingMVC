@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
-using System.Threading.Tasks;
-using DAL;
 using DTO;
 using Newtonsoft.Json;
+using System.Threading.Tasks;
 
 namespace BLL
 {
@@ -49,8 +48,13 @@ namespace BLL
             HotelAvailability hotelAvailability = new HotelAvailability();
             int availablePlace = 0;
             decimal minPrice = decimal.MaxValue;
-
-            List<Room> rooms = RoomDB.GetRoomsWithNoReservationByHotel(idHotel, arrival, departure);
+            List<Room> rooms;
+            string uri = baseUri + "hotels/" + idHotel + "/rooms?withReservation=0&arrival=" + arrival.ToString() + "&departure=" + departure.ToString();
+            using (HttpClient httpClient = new HttpClient())
+            {
+                Task<String> response = httpClient.GetStringAsync(uri);
+                rooms= JsonConvert.DeserializeObject<List<Room>>(response.Result);
+            }
 
             foreach (Room room in rooms)
             {

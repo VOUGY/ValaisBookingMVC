@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Security.Cryptography;
 using DTO;
-using DAL;
 using System.Net.Http;
 using Newtonsoft.Json;
 
